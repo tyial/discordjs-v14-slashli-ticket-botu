@@ -7,8 +7,7 @@ module.exports = client => {
     console.success(`${client.user.username} adlı hesaba başarıyla bağlanıldı.`)
     const statuses = [
         { name: `${client.user.username} hizmete hazır.`, type: ActivityType.Watching },
-        { name: `Tyial tarafından geliştirilmiştir.`, type: ActivityType.Listening },
-        { name: `discord.js v14 Eğlence Botu!`, type: ActivityType.Playing },
+        { name: `Tyial tarafından geliştirilmiştir.`, type: ActivityType.Listening }
     ];
 
     let index = 0;
