@@ -10,6 +10,8 @@ const GuildDatas = new JsonDatabase({ databasePath: "./Database/Guilds.json" })
 require("./Utils/eventLoader.js")(client)
 require("./Utils/slashHandler.js")(client)
 
+// Botu Kullanmadan README.md dosyasını okuyun!
+
 // TicketSystem ------------------------------------------------------------------------------------------------
 
 client.on('ready', async () => {
@@ -1512,15 +1514,16 @@ client.on("interactionCreate", async (interaction) => {
 // TicketSystem ------------------------------------------------------------------------------------------------
 
 // CrashHandler ------------------------------------------------------------------------------------------------
-// process.on('unhandledRejection', (reason, p) => {
-//     console.error(reason);
-// });
-// process.on("uncaughtException", (err, origin) => {
-//     console.error(' [AntiCrash] :: Uncaught Exception/Catch');
-// })
-// process.on('uncaughtExceptionMonitor', (err, origin) => {
-//     console.error(' [AntiCrash] :: Uncaught Exception/Catch (MONITOR)');
-// });
+ process.on('unhandledRejection', (reason, p) => {
+     console.error(reason);
+ });
+ process.on("uncaughtException", (err, origin) => {
+     console.error(' [AntiCrash] :: Uncaught Exception/Catch');
+ })
+ process.on('uncaughtExceptionMonitor', (err, origin) => {
+     console.error(' [AntiCrash] :: Uncaught Exception/Catch (MONITOR)');
+ });
 // CrashHandler ------------------------------------------------------------------------------------------------
 
+// Botu Kullanmadan README.md dosyasını okuyun!
 client.login(Config.Token);
