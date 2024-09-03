@@ -136,4 +136,4 @@ module.exports = {
       await interaction.reply({ content: 'Geçersiz adet.', ephemeral: true });
     }
   }
-}
+};
