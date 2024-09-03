@@ -72,7 +72,7 @@ module.exports = {
           .setRequired(true)
           .setMinLength(1)
           .setMaxLength(seçim === 'menulu' ? 80 : 80);
-          
+
         inputComponents.push(new ActionRowBuilder().addComponents(input));
       }
 
@@ -112,7 +112,7 @@ module.exports = {
               .setLabel(name)
               .setStyle(ButtonStyle.Primary)
               .setEmoji("➡️")
-              .setCustomId(`ticketButton-${name}`)
+              .setCustomId(`ticketCreate-${name}`)
             );
             components = [new ActionRowBuilder().addComponents(...buttons)];
           } else if (seçim === 'menulu') {
@@ -136,4 +136,4 @@ module.exports = {
       await interaction.reply({ content: 'Geçersiz adet.', ephemeral: true });
     }
   }
-};
+}
