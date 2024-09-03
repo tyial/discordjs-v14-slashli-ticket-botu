@@ -60,15 +60,16 @@ client.on("interactionCreate", async (interaction) => {
                 if (value.startsWith("ticketCreate-")) {
                     const trueValue = value.split('-')[1];
 
-
-                    if (GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets`) && Object.keys(GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets`)).find(
+                    const existingTicketChannel = Object.keys(GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets`)).find(
                         (channel) => GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets.${channel}.AuthorID`) === interaction.user.id
-                    )) {
+                    );
+
+                    if (existingTicketChannel) {
                         await interaction.reply({
                             embeds: [
                                 new EmbedBuilder()
                                     .setTitle("⚠️ Hata!")
-                                    .setDescription(`⚠️ **Zaten bu sunucuda destek talebiniz bulunmaktadır.**\n✉️ **Talebinize <#${DejaUnChannel}>'a tıklayarak ulaşabilirsiniz.**\n👍 **Eğer erişiminiz yok ise yetkililerden destek talebinizi silmesini/tekrardan açmasını isteyiniz.**`)
+                                    .setDescription(`⚠️ **Zaten bu sunucuda destek talebiniz bulunmaktadır.**\n✉️ **Talebinize <#${existingTicketChannel}>'a tıklayarak ulaşabilirsiniz.**\n👍 **Eğer erişiminiz yok ise yetkililerden destek talebinizi silmesini/tekrardan açmasını isteyiniz.**`)
                                     .setFooter({ text: "Bu altyapı Tyial tarafından kodlanmış ve paylaşılmıştır." })
                                     .setColor("Red"),],
                             ephemeral: true,
@@ -308,6 +309,45 @@ client.on("interactionCreate", async (interaction) => {
         }
     }
     if (interaction.isButton()) {
+        if (interaction.customId.startsWith("ticketCreate-")) {
+            const trueValue = interaction.customId.split('-')[1];
+
+            const existingTicketChannel = Object.keys(GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets`)).find(
+                (channel) => GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets.${channel}.AuthorID`) === interaction.user.id
+            );
+
+            if (existingTicketChannel) {
+                await interaction.reply({
+                    embeds: [
+                        new EmbedBuilder()
+                            .setTitle("⚠️ Hata!")
+                            .setDescription(`⚠️ **Zaten bu sunucuda destek talebiniz bulunmaktadır.**\n✉️ **Talebinize <#${existingTicketChannel}>'a tıklayarak ulaşabilirsiniz.**\n👍 **Eğer erişiminiz yok ise yetkililerden destek talebinizi silmesini/tekrardan açmasını isteyiniz.**`)
+                            .setFooter({ text: "Bu altyapı Tyial tarafından kodlanmış ve paylaşılmıştır." })
+                            .setColor("Red"),],
+                    ephemeral: true,
+                });
+                return interaction.message.edit({ ephemeral: false });
+            }
+
+            const reasonModal = new ModalBuilder()
+                .setCustomId(`reason-modal-${trueValue}`)
+                .setTitle('Sebep Belirtiniz');
+
+            const reasonInput = new TextInputBuilder()
+                .setCustomId('reason-input')
+                .setLabel('Sebep:')
+                .setPlaceholder('Lütfen en az 10 karakterlik bir sebep belirtiniz')
+                .setStyle(TextInputStyle.Paragraph)
+                .setMinLength(10)
+                .setMaxLength(200)
+                .setRequired(true);
+
+            const modalActionRow = new ActionRowBuilder().addComponents(reasonInput);
+            reasonModal.addComponents(modalActionRow);
+
+            await interaction.showModal(reasonModal);
+            await interaction.message.edit({ ephemeral: false });
+        }
         if (interaction.customId === "ticket-kapat") {
             let roleStaff = interaction.guild.roles.cache.get(GuildDatas.get(`${interaction.guild.id}.TicketSystem.Configure.StaffRoleID`));
             const channel = interaction.channel;
@@ -1507,22 +1547,21 @@ client.on("interactionCreate", async (interaction) => {
                 components: [],
             });
         }
-
     }
 });
 
 // TicketSystem ------------------------------------------------------------------------------------------------
 
 // CrashHandler ------------------------------------------------------------------------------------------------
- process.on('unhandledRejection', (reason, p) => {
-     console.error(reason);
- });
- process.on("uncaughtException", (err, origin) => {
-     console.error(' [AntiCrash] :: Uncaught Exception/Catch');
- })
- process.on('uncaughtExceptionMonitor', (err, origin) => {
-     console.error(' [AntiCrash] :: Uncaught Exception/Catch (MONITOR)');
- });
+process.on('unhandledRejection', (reason, p) => {
+    console.error(reason);
+});
+process.on("uncaughtException", (err, origin) => {
+    console.error(' [AntiCrash] :: Uncaught Exception/Catch');
+})
+process.on('uncaughtExceptionMonitor', (err, origin) => {
+    console.error(' [AntiCrash] :: Uncaught Exception/Catch (MONITOR)');
+});
 // CrashHandler ------------------------------------------------------------------------------------------------
 
 // Botu Kullanmadan README.md dosyasını okuyun!
