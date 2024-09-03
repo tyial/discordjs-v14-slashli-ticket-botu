@@ -60,17 +60,16 @@ client.on("interactionCreate", async (interaction) => {
                 if (value.startsWith("ticketCreate-")) {
                     const trueValue = value.split('-')[1];
 
-                    const existingTicketChannel = Object.keys(GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets`)).find(
-                        (channel) => GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets.${channel}.AuthorID`) === interaction.user.id
-                    );
-
-                    if (existingTicketChannel) {
+                    if (GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets`) && Object.keys(GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets`)).find(
+                        (channel) => GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets.${channel}.AuthorID`) === interaction.user.id)) {
                         await interaction.reply({
                             embeds: [
                                 new EmbedBuilder()
                                     .setTitle("⚠️ Hata!")
-                                    .setDescription(`⚠️ **Zaten bu sunucuda destek talebiniz bulunmaktadır.**\n✉️ **Talebinize <#${existingTicketChannel}>'a tıklayarak ulaşabilirsiniz.**\n👍 **Eğer erişiminiz yok ise yetkililerden destek talebinizi silmesini/tekrardan açmasını isteyiniz.**`)
-                                    .setFooter({ text: "Bu altyapı Tyial tarafından kodlanmış ve paylaşılmıştır." })
+                                    .setDescription(`⚠️ **Zaten bu sunucuda destek talebiniz bulunmaktadır.**\n✉️ **Talebinize <#${Object.keys(GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets`)).find(
+                                        (channel) => GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets.${channel}.AuthorID`) === interaction.user.id
+                                    )}>'a tıklayarak ulaşabilirsiniz.**\n👍 **Eğer erişiminiz yok ise yetkililerden destek talebinizi silmesini/tekrardan açmasını isteyiniz.**`)
+                                    .setFooter({ text: "Bu bot Tyial tarafından kodlanmıştır." })
                                     .setColor("Red"),],
                             ephemeral: true,
                         });
@@ -312,17 +311,16 @@ client.on("interactionCreate", async (interaction) => {
         if (interaction.customId.startsWith("ticketCreate-")) {
             const trueValue = interaction.customId.split('-')[1];
 
-            const existingTicketChannel = Object.keys(GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets`)).find(
-                (channel) => GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets.${channel}.AuthorID`) === interaction.user.id
-            );
-
-            if (existingTicketChannel) {
+            if (GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets`) && Object.keys(GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets`)).find(
+                (channel) => GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets.${channel}.AuthorID`) === interaction.user.id)) {
                 await interaction.reply({
                     embeds: [
                         new EmbedBuilder()
                             .setTitle("⚠️ Hata!")
-                            .setDescription(`⚠️ **Zaten bu sunucuda destek talebiniz bulunmaktadır.**\n✉️ **Talebinize <#${existingTicketChannel}>'a tıklayarak ulaşabilirsiniz.**\n👍 **Eğer erişiminiz yok ise yetkililerden destek talebinizi silmesini/tekrardan açmasını isteyiniz.**`)
-                            .setFooter({ text: "Bu altyapı Tyial tarafından kodlanmış ve paylaşılmıştır." })
+                            .setDescription(`⚠️ **Zaten bu sunucuda destek talebiniz bulunmaktadır.**\n✉️ **Talebinize <#${Object.keys(GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets`)).find(
+                                (channel) => GuildDatas.get(`${interaction.guild.id}.TicketSystem.Tickets.${channel}.AuthorID`) === interaction.user.id
+                            )}>'a tıklayarak ulaşabilirsiniz.**\n👍 **Eğer erişiminiz yok ise yetkililerden destek talebinizi silmesini/tekrardan açmasını isteyiniz.**`)
+                            .setFooter({ text: "Bu bot Tyial tarafından kodlanmıştır." })
                             .setColor("Red"),],
                     ephemeral: true,
                 });
