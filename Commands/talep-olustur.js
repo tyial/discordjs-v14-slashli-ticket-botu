@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle, ChannelType } = require('discord.js');
+const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle, ChannelType, PermissionsBitField } = require('discord.js');
 const { JsonDatabase } = require("wio.db")
 const GuildDatas = new JsonDatabase({ databasePath: "./Database/Guilds.json" })
 
@@ -44,7 +44,8 @@ module.exports = {
       .setRequired(false))
     .addStringOption(option => option.setName('embed-küçük-resim-urlsi-giriniz')
       .setDescription('Gömülü mesajdaki küçük resmin URL\'sini giriniz.')
-      .setRequired(false)),
+      .setRequired(false))
+    .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 
   async run(client, interaction) {
     const seçim = interaction.options.getString('seçim');
